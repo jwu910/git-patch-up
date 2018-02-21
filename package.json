@@ -1,0 +1,32 @@
+{
+  "name": "git-that-patch",
+  "version": "0.0.1",
+  "description": "Making git format-patch quick and easy.",
+  "main": "index.js",
+  "scripts": {
+    "test": "console.log('test');"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwu910/git-that-patch.git"
+  },
+  "keywords": [
+    "git",
+    "format-patch",
+    "format",
+    "patch",
+    "auto-merge",
+    "am",
+    "fp"
+  ],
+  "author": "jwu910",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwu910/git-that-patch/issues"
+  },
+  "homepage": "https://github.com/jwu910/git-that-patch#readme",
+  "dependencies": {
+    "chalk": "^2.3.1",
+    "commander": "^2.14.1"
+  }
+}
