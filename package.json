@@ -1,6 +1,9 @@
 {
   "name": "git-that-patch",
   "version": "0.0.1",
+  "bin": {
+    "gtp": "index.js"
+  },
   "description": "Making git format-patch quick and easy.",
   "main": "index.js",
   "scripts": {
