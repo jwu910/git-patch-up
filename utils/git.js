@@ -9,7 +9,7 @@ function execGit(args) {
   return new Promise((resolve, reject) => {
     const gitResponse = spawn('git', args, {
       cwd: process.cwd(),
-      silent: true
+      silent: true,
     });
 
     var retVal = '';
@@ -28,27 +28,32 @@ function execGit(args) {
   });
 }
 
-function checkDir(patchDir) {
+async function applyPatchFiles(patchDir) {
+
+};
+
+async function createDir(patchDir) {
   /*
   Check if patch directory is created. Create if not yet created
   */
   return new Promise((resolve, reject) => {
-    const checkDir = spawn('mkdir', ['-p', patchDir], {
+    console.log('Creating ' + patchDir);
+    const createDir = spawn('mkdir', ['-p', patchDir], {
       cwd: process.cwd(),
-      silent: false
+      silent: false,
     });
 
     var retVal = '';
 
-    checkDir.stdout.on('data', data => {
+    createDir.stdout.on('data', data => {
       retVal += data.toString();
     });
 
-    checkDir.stdout.on('close', () => {
+    createDir.stdout.on('close', () => {
       resolve(retVal.trim());
     });
 
-    checkDir.stderr.on('data', stderr => {
+    createDir.stderr.on('data', stderr => {
       reject(stderr.toString());
     });
   });
@@ -56,16 +61,21 @@ function checkDir(patchDir) {
 
 async function createPatchFiles(number, commit, patchDir) {
   /*
-  Execute checkDir to ensure directory is created. Call execGit to create patch files.
-  @TODO Check for existing files before creating
+  Execute createDir to ensure directory is created. Call execGit to create patch files.
   */
-  await checkDir(patchDir);
+  await createDir(patchDir);
 
   const args = ['format-patch', '-' + number, commit, '-o', patchDir, '-q'];
 
   await execGit(args);
-}
+};
+
+async function deletePatchFiles(patchDir) {
+
+};
 
 module.exports = {
-  createPatchFiles: createPatchFiles
+  applyPatchFiles: applyPatchFiles,
+  createPatchFiles: createPatchFiles,
+  deletePatchFiles: deletePatchFiles,
 };
