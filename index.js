@@ -8,7 +8,7 @@ const prompts = require('prompts');
 
 program.version('0.0.1', '-v, --version');
 
-function getPatchFiles(patchDir) {
+function checkPatchFiles(patchDir) {
   if (fs.existsSync(patchDir)) {
     fs.readdir(patchDir, (err, items) => {
       let retVal = ['Some files already exist: '];
@@ -46,7 +46,7 @@ program
       initial: false,
     };
 
-    getPatchFiles(patchDir);
+    checkPatchFiles(patchDir);
 
     const response = await prompts(question);
 
@@ -70,12 +70,55 @@ program
   .command('apply')
   .on('--help', () => {
     console.log('');
+    console.log('  Apply command will run ' + chalk.yellow('git am -3') + ' on your patch files')
+    console.log('');
     console.log('  Examples:');
     console.log('');
     console.log('  $ gtp apply');
     console.log('');
   })
-  .action(() => {});
+  .action(async () => {
+
+    checkPatchFiles();
+
+    await git.applyPatchFiles().then(() => {
+      console.log('Applying patch files.')
+      console.log('If there are merge conflicts, resolve and then run \n' 
+        + chalk.yellow('git am --continue') + ', to continue,\n' 
+        + chalk.yellow('git am --skip') + ', to skip, or\n'
+        + chalk.yellow('git am --abort') + ' to abort.')
+    })
+  });
+
+program
+  .command('delete')
+  .on('--help', () => {
+    console.log('');
+    console.log('  Delete will clear all files in your patch directory');
+    console.log('');
+    console.log('  Examples:');
+    console.log('');
+    console.log('  $ patchup delete');
+    console.log('');
+  })
+  .action(async () => {
+    const question = {
+      type: 'confirm',
+      name: 'value',
+      message: chalk.yellow('Are you sure you want to delete all patch files?'),
+      initial: false,
+    };
+
+    const response = await prompts(question);
+
+    if (response.value) {
+      await git.deletePatchFiles('./patch_files').then(() => {
+        console.log('Deleted patch files.');
+      });
+    }
+
+  })
+
 
 program.parse(process.argv);
 
