@@ -1,8 +1,8 @@
 {
-  "name": "git-that-patch",
+  "name": "git-patch-up",
   "version": "0.0.1",
   "bin": {
-    "gtp": "index.js"
+    "patchup": "index.js"
   },
   "description": "Making git format-patch quick and easy.",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jwu910/git-that-patch.git"
+    "url": "git+https://github.com/jwu910/git-patch-up.git"
   },
   "keywords": [
     "git",
@@ -20,14 +20,18 @@
     "patch",
     "auto-merge",
     "am",
-    "fp"
+    "fp",
+    "patch-up",
+    "auto-merge",
+    "git-patch",
+    "git-auto-merge"
   ],
   "author": "jwu910",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jwu910/git-that-patch/issues"
+    "url": "https://github.com/jwu910/git-patch-up/issues"
   },
-  "homepage": "https://github.com/jwu910/git-that-patch#readme",
+  "homepage": "https://github.com/jwu910/git-patch-up#readme",
   "dependencies": {
     "chalk": "^2.3.1",
     "commander": "^2.14.1"
