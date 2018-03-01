@@ -46,7 +46,7 @@ program
       initial: false,
     };
 
-    await getPatchFiles(patchDir);
+    getPatchFiles(patchDir);
 
     const response = await prompts(question);
 
@@ -61,7 +61,8 @@ program
           console.error(error);
         });
     } else {
-      console.log(chalk.yellow('Exiting. Remove files before continuing.'));
+      console.log('Exiting. Remove files before continuing.');
+      console.log('To remove patch files, run: ' + chalk.yellow('patchup delete'));
     }
   });
 
