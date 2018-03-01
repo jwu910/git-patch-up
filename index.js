@@ -7,27 +7,33 @@ const git = require('./utils/git');
 program.version('0.0.1', '-v, --version');
 
 program
+  .command('create')
   .option('-n, --number <number>', 'Number of commits')
   .option('-c, --commit <commit_sha>', 'Git commit sha')
-  .parse(process.argv);
+  .action((options) => {
+    const { commit, number } = options;
+    const patchDir = './patch_files';
 
-const { commit, number } = program;
-const patchDir = './patch_files';
+    git.createPatchFiles(number, commit, patchDir).then(() => {
+      console.log(chalk.green('Created patch files in ' + patchDir));
+    }).catch((error) => {
+      console.log(chalk.yellow('Something went wrong!'));
+      console.error(error);
+    });
+  }).on('--help', () => {
+    console.log('');
+    console.log('  Examples:');
+    console.log('');
+    console.log('  $ gtp create -n <number> -c <commit_sha>');
+    console.log('  $ gtp create -n 2 -c bdb48c8')
+    console.log('');
+  })
 
-git.createPatchFiles(number, commit, patchDir).then(() => {
-  console.log(chalk.green('Created patch files in ' + patchDir));
+program.on('--help', () => {
+  console.log('')
 });
 
-program.on('--help', function() {
-  console.log('  Examples:');
-  console.log('');
-  console.log('    $ gtp -n 5 -c 4c2615da4c02dd2602b969e5457bfa5e77085238');
-  console.log(
-    '    $ // Will create 5 patch files for the 5 most recent commits starting with the provided git SHA'
-  );
-  console.log('');
-});
-
+program.parse(process.argv);
 if (!process.argv.slice(2).length) {
   program.help();
 }

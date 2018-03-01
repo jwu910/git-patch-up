@@ -57,6 +57,7 @@ function checkDir(patchDir) {
 async function createPatchFiles(number, commit, patchDir) {
   /*
   Execute checkDir to ensure directory is created. Call execGit to create patch files.
+  @TODO Check for existing files before creating
   */
   await checkDir(patchDir);
 
